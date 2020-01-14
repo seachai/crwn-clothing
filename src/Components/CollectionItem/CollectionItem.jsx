@@ -1,5 +1,5 @@
 import React from "react";
-import "./Collection_Item.scss";
+import "./CollectionItem.scss";
 
 const CollectionItem = ({ id, name, price, imageUrl }) => {
   return (
