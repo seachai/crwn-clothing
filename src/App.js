@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import HomePage from "./Pages/Homepage/Homepage";
 import ShopPage from "./Pages/Shop/Shop";
@@ -8,7 +8,7 @@ import { auth } from "./Firebase/Firebase.utils";
 
 import "./App.css";
 
-class App extends React.Component {
+class App extends Component {
   constructor() {
     super();
 
@@ -20,6 +20,7 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
+    // firebase.auth() method that returns the login data of the current user
     this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
       this.setState({ currentUser: user });
 
@@ -34,7 +35,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header />
+        <Header currentUser={this.state.currentUser} />
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/shop" component={ShopPage} />
