@@ -4,7 +4,7 @@ import HomePage from "./Pages/Homepage/Homepage";
 import ShopPage from "./Pages/Shop/Shop";
 import LoginAndRegister from "./Pages/LoginAndRegister/LoginAndRegister";
 import Header from "./Components/Header/Header";
-import { auth } from "./Firebase/Firebase.utils";
+import { auth, createUserProfileDocument } from "./Firebase/Firebase.utils";
 
 import "./App.css";
 
@@ -21,10 +21,20 @@ class App extends Component {
 
   componentDidMount() {
     // firebase.auth() method that returns the login data of the current user
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({ currentUser: user });
-
-      console.log(user);
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+        userRef.onSnapshot(snapShot => {
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data()
+            }
+          });
+          console.log(this.state);
+        });
+      }
+      this.setState({ currentUser: userAuth });
     });
   }
 
