@@ -17,23 +17,24 @@ class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit = async e => {
+  handleSubmit = async (e) => {
     e.preventDefault();
 
     const { email, password } = this.state;
 
     try {
       await auth.signInWithEmailAndPassword(email, password);
+      alert("Successfully signed in.");
       this.setState({
         email: "",
         password: ""
       });
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     const { value, name } = e.target;
 
     this.setState({
